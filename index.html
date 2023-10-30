@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora de Autonomia</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-image: url('./logo_make_11_06_2023_91.jpg');
+      background-size: cover;
+      background-repeat: no-repeat;
+      
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden; /* Evitar a barra de rolagem horizontal em telas menores */
+    }
+
+    #calculator {
+      background-color: rgba(255, 255, 255, 0.778);
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      max-width: 400px; /* Definir a largura máxima do conteúdo */
+      width: 90%; /* Definir a largura como 90% da largura disponível */
+      
+    }
+
+    label {
+      display: block;
+      margin-bottom: 10px;
+      color: #333; /* Cor do texto padrão */
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 8px;
+      margin-bottom: 20px;
+      box-sizing: border-box;
+    }
+
+    button {
+      background-color: #4caf50;
+      color: #fff;
+      border: none;
+      padding: 10px 30px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+
+    #resultado {
+      margin-top: 20px;
+      color: red;
+    }
+
+    #creditos {
+      position: absolute;
+      bottom: 20px;
+      right: 40px;
+      color: white;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+
+<div id="calculator">
+  <h2>Calculadora de Autonomia</h2>
+  <label for="volumeCilindro">Volume do Cilindro (litros):</label>
+  <input type="number" id="volumeCilindro" required>
+
+  <label for="pressaoInicial">Pressão Inicial (BAR):</label>
+  <input type="number" id="pressaoInicial" required>
+
+  <label for="taxaConsumo">Taxa de Consumo Individual (litros/minuto):</label>
+  <input type="number" id="taxaConsumo" required>
+
+  <button onclick="calcularAutonomia()">Calcular</button>
+
+  <p id="resultado"></p>
+
+  <div id="creditos">
+    <a href="https://br.freepik.com/psd-gratuitas/bombeiro-trabalha-em-chamas-bombeiro-entra-em-predio-em-chamas-generative-ai_47896845.htm#query=firefighter&position=1&from_view=search&track=sph" style="color: white;">Imagem de WangXiNa no Freepik</a>
+  </div>
+</div>
+
+<script>
+  function calcularAutonomia() {
+    const volumeCilindro = parseFloat(document.getElementById('volumeCilindro').value);
+    const pressaoInicial = parseFloat(document.getElementById('pressaoInicial').value);
+    const taxaConsumo = parseFloat(document.getElementById('taxaConsumo').value);
+
+    if (!volumeCilindro && !pressaoInicial && !taxaConsumo) {
+      document.getElementById('resultado').innerText = 'Nenhum campo preenchido!';
+      return;
+    } else {
+      if (!volumeCilindro || volumeCilindro <= 0) {
+        document.getElementById('resultado').innerText = 'Campo necessário. Preencha o Volume do Cilindro!';
+        return;
+      }
+
+      if (!pressaoInicial || pressaoInicial <= 0) {
+        document.getElementById('resultado').innerText = 'Campo necessário. Preencha a Pressão Inicial!';
+        return;
+      }
+
+      if (!taxaConsumo || taxaConsumo <= 0) {
+        document.getElementById('resultado').innerText = 'Campo necessário. Preencha a Taxa de Conumo!';
+        return;
+      }
+    }
+
+    const fatorSeguranca = 50; // Fixando o fator de segurança em 50 BAR
+
+    const quantidadeAr = (pressaoInicial - fatorSeguranca) * volumeCilindro;
+    const tempoAutonomia = (quantidadeAr / taxaConsumo);
+
+    document.getElementById('resultado').innerText = `Tempo de Autonomia: ${tempoAutonomia.toFixed(2)} minutos`;
+  }
+</script>
+
+</body>
+</html>
